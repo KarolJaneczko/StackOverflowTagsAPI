@@ -16,5 +16,11 @@ namespace StackOverflowTagsAPI.Services {
             File.WriteAllText(FilePath, jsonString);
             return Task.CompletedTask;
         }
+
+        public Task<IEnumerable<TagInfo>> GetTags() {
+            var cacheData = File.ReadAllText(FilePath);
+            var tagInfos = JsonConvert.DeserializeObject<IEnumerable<TagInfo>>(cacheData);
+            return Task.FromResult(tagInfos);
+        }
     }
 }

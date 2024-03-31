@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StackOverflowTagsAPI.Models.API;
 using StackOverflowTagsAPI.Models.Logic;
 using StackOverflowTagsAPI.Services.Interfaces;
 
@@ -15,9 +16,15 @@ namespace StackOverflowTagsAPI.Controllers {
         }
 
         [HttpGet]
-        [Route("GetTags")]
-        public async Task<ApiResponse> GetTags(CancellationToken cancellationToken) {
-            return await TagService.GetTags(cancellationToken);
+        [Route("SetTags")]
+        public async Task<ApiResponse> SetTags(CancellationToken cancellationToken) {
+            return await TagService.SetTags(cancellationToken);
+        }
+
+        [HttpPost]
+        [Route("GetTagInfos")]
+        public async Task<ApiResponse> GetTagInfos(TagInfoRequest request, CancellationToken cancellationToken) {
+            return await TagService.GetTagInfos(request, cancellationToken);
         }
     }
 }

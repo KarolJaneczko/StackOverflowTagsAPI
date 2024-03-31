@@ -9,7 +9,7 @@ namespace StackOverflowTagsAPI.Services {
         private readonly IHttpService HttpService = httpService;
         private readonly IStorageService StorageService = storageService;
 
-        public async Task<ApiResponse> GetTags(CancellationToken cancellationToken) {
+        public async Task<ApiResponse> SetTags(CancellationToken cancellationToken) {
             async Task<ApiResponse> task() {
                 var tagsResponses = new List<TagsResponse>();
 
@@ -26,6 +26,42 @@ namespace StackOverflowTagsAPI.Services {
 
                 await StorageService.SaveTags(tagInfos);
                 return new ApiResponse(true, "Success", "Tokens has been saved and overwritten in the storage.");
+            }
+            return await ClassHelper.RunWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetTagInfos(TagInfoRequest tagInfoRequest, CancellationToken cancellationToken) {
+            async Task<ApiResponse> task() {
+                if (tagInfoRequest.ResultsPerPage < 0) {
+                    throw new ApiException("Number of results per page cannot be negative!");
+                }
+
+                if (tagInfoRequest.Page - 1 < 0) {
+                    throw new ApiException("Number of the page must start from 1.");
+                }
+
+                IEnumerable<TagInfo> resultTagInfos;
+                var tagInfos = await StorageService.GetTags();
+
+                if (tagInfoRequest.SortType == SortType.Alphabetical) {
+                    resultTagInfos = tagInfos.OrderBy(x => x.Name);
+                } else {
+                    resultTagInfos = tagInfos.OrderBy(x => x.PercentageShare);
+                }
+
+                if (tagInfoRequest.DescendingOrder) {
+                    resultTagInfos = resultTagInfos.Reverse();
+                }
+
+                resultTagInfos = resultTagInfos.Skip((tagInfoRequest.Page - 1) * tagInfoRequest.ResultsPerPage).Take(tagInfoRequest.ResultsPerPage);
+
+                var tagInfoResponse = new TagInfoResponse {
+                    Page = tagInfoRequest.Page,
+                    ResultsPerPage = tagInfoRequest.ResultsPerPage,
+                    TagInfos = resultTagInfos,
+                };
+
+                return new ApiResponse(true, tagInfoResponse);
             }
             return await ClassHelper.RunWithTryCatch(task);
         }

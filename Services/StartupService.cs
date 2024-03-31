@@ -5,7 +5,7 @@ namespace StackOverflowTagsAPI.Services {
         private ITagService TagService { get; } = tagService;
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken) {
-            await TagService.GetTags(stoppingToken);
+            await TagService.SetTags(stoppingToken);
         }
     }
 }
