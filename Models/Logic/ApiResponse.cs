@@ -4,6 +4,7 @@
         public string Title { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
+        private Exception Exception { get; }
 
         public ApiResponse(bool isSuccess, string title, string message, object data = null) {
             IsSuccess = isSuccess;
@@ -24,6 +25,7 @@
             Title = "Exception";
             Message = exception.Message;
             Data = exception.Data;
+            Exception = exception;
         }
 
         public ApiResponse(ApiException exception) {
@@ -31,6 +33,9 @@
             Title = exception.ResponseTitle;
             Message = exception.ResponseMessage;
             Data = exception.Data;
+            Exception = exception;
         }
+
+        public Exception GetException() => Exception;
     }
 }

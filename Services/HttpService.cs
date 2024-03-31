@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StackOverflowTagsAPI.Models.Logic;
 using StackOverflowTagsAPI.Services.Interfaces;
-using StackOverflowTagsAPI.Utils;
 using System.Net;
 using System.Text;
 
@@ -18,7 +17,7 @@ namespace StackOverflowTagsAPI.Services {
         }
 
         public async Task<ApiResponse> SendApiRequest<T>(HttpMethod httpMethod, string path, object body = null, CancellationToken cancellationToken = default) {
-            async Task<ApiResponse> task() {
+            try {
                 var serializedBody = body is null ? "" : JsonConvert.SerializeObject(body);
                 var request = new HttpRequestMessage {
                     Method = httpMethod,
@@ -32,10 +31,13 @@ namespace StackOverflowTagsAPI.Services {
                     var data = JsonConvert.DeserializeObject<T>(content);
                     return new ApiResponse(true, data);
                 } else {
-                    throw new ApiException(response.StatusCode.ToString(), response.ReasonPhrase);
+                    throw new ApiException(response.StatusCode.ToString(), await response.Content.ReadAsStringAsync(cancellationToken));
                 }
+            } catch (ApiException ex) {
+                return new ApiResponse(ex);
+            } catch (Exception ex) {
+                return new ApiResponse(ex);
             }
-            return await ClassHelper.RunWithTryCatch(task);
         }
     }
 }
