@@ -60,7 +60,7 @@ namespace StackOverflowTagsAPI.Services {
                 TagInfos = resultTagInfos,
             };
 
-            return new ApiResponse(true, tagInfoResponse);
+            return new ApiResponse("Success", tagInfoResponse);
         }
     }
 }

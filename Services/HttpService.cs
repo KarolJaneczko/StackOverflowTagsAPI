@@ -29,7 +29,7 @@ namespace StackOverflowTagsAPI.Services {
                 if (response.StatusCode == HttpStatusCode.OK) {
                     var content = await response.Content.ReadAsStringAsync(cancellationToken);
                     var data = JsonConvert.DeserializeObject<T>(content);
-                    return new ApiResponse(true, data);
+                    return new ApiResponse("Success", data);
                 } else {
                     throw new ApiException(response.StatusCode.ToString(), await response.Content.ReadAsStringAsync(cancellationToken));
                 }
