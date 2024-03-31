@@ -1,32 +1,28 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
+using StackOverflowTagsAPI.Services;
+using StackOverflowTagsAPI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-   .AddNegotiate();
-
+builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
 builder.Services.AddAuthorization(options => {
-    // By default, all incoming requests will be authorized according to the default policy.
     options.FallbackPolicy = options.DefaultPolicy;
 });
 
-var app = builder.Build();
+// Dodawanie serwisów
+builder.Services.AddSingleton<IHttpService, HttpService>();
+builder.Services.AddSingleton<ITagService, TagService>();
+builder.Services.AddSingleton<IStorageService, StorageService>();
+builder.Services.AddHostedService<StartupService>();
 
-// Configure the HTTP request pipeline.
+var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

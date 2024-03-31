@@ -1,16 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StackOverflowTagsAPI.Models.StackOverflow;
+using StackOverflowTagsAPI.Models.Logic;
+using StackOverflowTagsAPI.Services.Interfaces;
 
 namespace StackOverflowTagsAPI.Controllers {
     [ApiController]
     [Route("Tags")]
-    public class TagsController(ILogger<TagsController> logger) : ControllerBase {
-        private readonly ILogger<TagsController> Logger = logger;
+    public class TagsController : ControllerBase {
+        private ILogger<TagsController> Logger { get; }
+        private ITagService TagService { get; }
+
+        public TagsController(ILogger<TagsController> logger, ITagService tagService) {
+            Logger = logger;
+            TagService = tagService;
+        }
 
         [HttpGet]
         [Route("GetTags")]
-        public IEnumerable<Tag> GetTags() {
-            return new List<Tag>();
+        public async Task<ApiResponse> GetTags(CancellationToken cancellationToken) {
+            return await TagService.GetTags(cancellationToken);
         }
     }
 }
