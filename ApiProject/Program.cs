@@ -35,3 +35,5 @@ static Task SetLogger(WebApplicationBuilder builder) {
     builder.Logging.AddProvider(new ApiLoggerProvider(config));
     return Task.CompletedTask;
 }
+
+public partial class Program { }
