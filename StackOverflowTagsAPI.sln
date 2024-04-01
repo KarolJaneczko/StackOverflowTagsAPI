@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackOverflowTagsAPI", "StackOverflowTagsAPI.csproj", "{4BCB596E-6F54-405D-A2D6-75D8DF6CF3D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackOverflowTagsAPI", "StackOverflowTagsAPI.csproj", "{4BCB596E-6F54-405D-A2D6-75D8DF6CF3D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTests", "..\ApiTests\ApiTests.csproj", "{36332CEB-EC33-4959-99D8-B4BC6214A029}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4BCB596E-6F54-405D-A2D6-75D8DF6CF3D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BCB596E-6F54-405D-A2D6-75D8DF6CF3D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BCB596E-6F54-405D-A2D6-75D8DF6CF3D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36332CEB-EC33-4959-99D8-B4BC6214A029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36332CEB-EC33-4959-99D8-B4BC6214A029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36332CEB-EC33-4959-99D8-B4BC6214A029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36332CEB-EC33-4959-99D8-B4BC6214A029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

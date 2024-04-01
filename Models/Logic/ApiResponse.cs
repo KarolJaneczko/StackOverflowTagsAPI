@@ -13,10 +13,10 @@
             Data = data;
         }
 
-        public ApiResponse(bool isSuccess, object data = null) {
-            IsSuccess = isSuccess;
+        public ApiResponse(string message, object data = null) {
+            IsSuccess = data is not null;
             Title = string.Empty;
-            Message = string.Empty;
+            Message = message;
             Data = data;
         }
 
